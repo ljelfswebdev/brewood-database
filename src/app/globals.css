@@ -2,32 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.button-base {
+  @apply bg-blue text-white rounded-full px-8 py-2 border-2 border-blue transition-colors;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.button-base:hover {
+  @apply bg-white text-blue;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.button-reset {
+  @apply bg-grey text-white rounded-full px-8 py-2 border-2 border-grey transition-colors;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.button-reset:hover {
+  @apply bg-white text-grey;
 }
