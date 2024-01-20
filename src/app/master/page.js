@@ -40,18 +40,40 @@ useEffect(() => {
     const fetchData = async () => {
       try {
         // Your actual data fetching logic here
-        const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
-
-        const mappedData = filteredCommitteeData.map(item => ({
+        const mappedData = jsonData.map(item => ({
           firstName: item.firstName,
           lastName: item.lastName,
           email: item.email,
           dob: item.DOB,
           homeNumber: item.homeNumber,
           mobileNumber: item.mobileNumber,
+          emergencyContact: item.emergencyContact,
+          emergencyContactNumber: item.emergencyContactNumber,
+          premierDraw: item.premierDraw,
+          juniorParent: item.juniorParent,
+          firstChild: item.firstChild,
+          secondChild: item.secondChild,
+          thirdChild: item.thirdChild,
+          fourthChild: item.fourthChild,
+          player: item.player,
+          ladies: item.ladies,
+          committee: item.committee,
+          lifeMember: item.lifeMember,
+          trustee: item.trustee,
+          elves: item.elves,
+          coach: item.coach,
+          patron: item.patron,
+          dinnerInvite: item.dinnerInvite
         }));
 
-        setTransformedData(mappedData);
+        const sortedData = mappedData.sort((a, b) => {
+          if (a.lastName === b.lastName) {
+            return a.firstName.localeCompare(b.firstName);
+          }
+          return a.lastName.localeCompare(b.lastName);
+        });
+
+        setTransformedData(sortedData);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -74,19 +96,53 @@ useEffect(() => {
       dob: item.DOB,
       homeNumber: item.homeNumber,
       mobileNumber: item.mobileNumber,
+      emergencyContact: item.emergencyContact,
+      emergencyContactNumber: item.emergencyContactNumber,
+      premierDraw: item.premierDraw,
+      juniorParent: item.juniorParent,
+      firstChild: item.firstChild,
+      secondChild: item.secondChild,
+      thirdChild: item.thirdChild,
+      fourthChild: item.fourthChild,
+      player: item.player,
+      ladies: item.ladies,
+      committee: item.committee,
+      lifeMember: item.lifeMember,
+      trustee: item.trustee,
+      elves: item.elves,
+      coach: item.coach,
+      patron: item.patron,
+      dinnerInvite: item.dinnerInvite
     }));
     setTransformedData(mappedFilteredData);
   };
 
   const handleReset = () => {
     setSearchTerm('');
-    setTransformedData(jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes').map(item => ({
+    setTransformedData(jsonData.map(item => ({
       firstName: item.firstName,
       lastName: item.lastName,
       email: item.email,
       dob: item.DOB,
       homeNumber: item.homeNumber,
       mobileNumber: item.mobileNumber,
+      emergencyContact: item.emergencyContact,
+      emergencyContactNumber: item.emergencyContactNumber,
+      premierDraw: item.premierDraw,
+      juniorParent: item.juniorParent,
+      firstChild: item.firstChild,
+      secondChild: item.secondChild,
+      thirdChild: item.thirdChild,
+      fourthChild: item.fourthChild,
+      player: item.player,
+      ladies: item.ladies,
+      committee: item.committee,
+      lifeMember: item.lifeMember,
+      trustee: item.trustee,
+      elves: item.elves,
+      coach: item.coach,
+      patron: item.patron,
+      dinnerInvite: item.dinnerInvite
     })));
   };
   return (

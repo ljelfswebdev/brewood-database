@@ -34,64 +34,55 @@ const Committee = () => {
 const [isLoading, setIsLoading] = useState(true);
 const [transformedData, setTransformedData] = useState([]);
 const [searchTerm, setSearchTerm] = useState('');
+const [originalData, setOriginalData] = useState([]);
+
 
 useEffect(() => {
-    // Simulate an asynchronous data fetch
-    const fetchData = async () => {
-      try {
-        // Your actual data fetching logic here
-        const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
+  const fetchData = async () => {
+    try {
+      const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
 
-        const mappedData = filteredCommitteeData.map(item => ({
-          firstName: item.firstName,
-          lastName: item.lastName,
-          email: item.email,
-          dob: item.DOB,
-          homeNumber: item.homeNumber,
-          mobileNumber: item.mobileNumber,
-        }));
+      const mappedData = filteredCommitteeData.map(item => ({
+        firstName: item.firstName,
+        lastName: item.lastName,
+        email: item.email,
+        dob: item.DOB,
+        homeNumber: item.homeNumber,
+        mobileNumber: item.mobileNumber,
+      }));
 
-        setTransformedData(mappedData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        // Handle error if needed
-      }
-    };
+      const sortedData = mappedData.sort((a, b) => {
+        if (a.lastName === b.lastName) {
+          return a.firstName.localeCompare(b.firstName);
+        }
+        return a.lastName.localeCompare(b.lastName);
+      });
 
-    fetchData();
-  }, []);
-
-  const handleSearch = () => {
-    const filteredData = jsonData.filter(item =>
-      item.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.lastName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    const mappedFilteredData = filteredData.map(item => ({
-      firstName: item.firstName,
-      lastName: item.lastName,
-      email: item.email,
-      dob: item.DOB,
-      homeNumber: item.homeNumber,
-      mobileNumber: item.mobileNumber,
-    }));
-    setTransformedData(mappedFilteredData);
+      setOriginalData(sortedData);
+      setTransformedData(sortedData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error if needed
+    }
   };
 
-  const handleReset = () => {
-    setSearchTerm('');
-    // Reset to the initially filtered committee data
-    const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
-    const mappedData = filteredCommitteeData.map(item => ({
-      firstName: item.firstName,
-      lastName: item.lastName,
-      email: item.email,
-      dob: item.DOB,
-      homeNumber: item.homeNumber,
-      mobileNumber: item.mobileNumber,
-    }));
-    setTransformedData(mappedData);
-  };
+  fetchData();
+}, []);
+
+const handleSearch = () => {
+  const filteredData = originalData.filter(item =>
+    item.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  setTransformedData(filteredData);
+};
+
+const handleReset = () => {
+  setSearchTerm('');
+  setTransformedData(originalData);
+};
   return (
     <div>
       <div className="flex gap-4 mb-8">
