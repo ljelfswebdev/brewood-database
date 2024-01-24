@@ -11,6 +11,7 @@ module.exports = {
         blue: "#1510AB",
         darkBlue: "#0A0068",
         grey: "#52588A",
+        blueOpacity: "rgba(21,16,171, 0.2)",
       },
     },
   },

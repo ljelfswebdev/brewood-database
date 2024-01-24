@@ -1,5 +1,6 @@
 import Header from "../components/header";
 import "./globals.css";
+import { LoginProvider } from "../components/login";
 
 
 export const metadata = {
@@ -11,8 +12,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="px-4 max-w-screen-xl pb-4">
-        <Header/>
-        {children}
+        <LoginProvider>
+          <Header/>
+          {children}
+        </LoginProvider>
         </body>
     </html>
   );

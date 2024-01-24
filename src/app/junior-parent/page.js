@@ -150,8 +150,8 @@ const handleReset = () => {
 
         </ul>
         <ul className="flex overflow-scroll">
-          {transformedData.map((item) => (
-            <li key={`${item.firstName}${item.lastName}`} className="border-r-2 border-solid border-blue px-2">
+          {transformedData.map((item, index) => (
+            <li key={`${item.firstName}${item.lastName}`} className={`border-r-2 border-solid border-blue px-2 ${index % 2 === 0 ? 'bg-blueOpacity' : ''}`}>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.firstName}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.lastName}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.email}</span>

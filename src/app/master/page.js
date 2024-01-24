@@ -4,32 +4,6 @@ import { useState, useEffect } from 'react';
 import jsonData from '../../../data/data.json';
 
 const Master = () => {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//   const login = () => {
-//     const envUsername = process.env.NEXT_PUBLIC_USERNAME;
-//     const envPassword = process.env.NEXT_PUBLIC_PASSWORD;
-
-//     const username = prompt("Enter your username:");
-//     const password = prompt("Enter your password:");
-
-//     if (username === envUsername && password === envPassword) {
-//       alert("Login successful!");
-//       setIsLoggedIn(true);
-//     } else {
-//       alert("Invalid username or password. Please try again.");
-//     }
-//   };
-
-//   if (!isLoggedIn) {Yes",
-//     return (
-//       <div className="overlay">
-//         <p>Please log in to access the content.</p>
-//         <button onClick={login} className="button-base hover:button-hover">Login</button>
-//       </div>
-//     );
-//   }
-
 
 const [isLoading, setIsLoading] = useState(true);
 const [transformedData, setTransformedData] = useState([]);
@@ -242,8 +216,8 @@ useEffect(() => {
 
         </ul>
         <ul className="flex overflow-scroll">
-          {transformedData.map((item) => (
-            <li key={`${item.firstName}${item.lastName}`} className="border-r-2 border-solid border-blue px-2">
+          {transformedData.map((item, index) => (
+           <li key={`${item.firstName}${item.lastName}`} className={`border-r-2 border-solid border-blue px-2 ${index % 2 === 0 ? 'bg-blueOpacity' : ''}`}>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.firstName}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.lastName}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.email}</span>
