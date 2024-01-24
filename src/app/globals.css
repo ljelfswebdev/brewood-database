@@ -17,3 +17,12 @@
 .button-reset:hover {
   @apply bg-white text-grey;
 }
+
+
+.button-delete {
+  @apply bg-red text-white rounded-full px-8 py-2 border-2 border-red transition-colors;
+}
+
+.button-delete:hover {
+  @apply bg-white text-red;
+}
