@@ -34,6 +34,12 @@ const Master = () => {
 const [isLoading, setIsLoading] = useState(true);
 const [transformedData, setTransformedData] = useState([]);
 const [searchTerm, setSearchTerm] = useState('');
+const [mailingList, setMailingList] = useState([]);
+
+const extractEmails = () => {
+    const emails = transformedData.map(item => item.email);
+    setMailingList(emails);
+  };
 
 useEffect(() => {
     // Simulate an asynchronous data fetch
@@ -266,6 +272,21 @@ useEffect(() => {
 
           ))}
         </ul>
+        </div>
+      )}
+
+    <button onClick={extractEmails} className="button-base hover:button-hover my-10">
+          Generate Mailing List
+        </button>
+
+        {mailingList.length > 0 && (
+        <div className="mb-8">
+          <h2>Mailing List:</h2>
+          <ul>
+            {mailingList.map((email, index) => (
+              <li key={index}>{email},</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

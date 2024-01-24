@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import jsonData from '../../../data/data.json';
 
-const Committee = () => {
+const Elves = () => {
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 //   const login = () => {
@@ -46,15 +46,17 @@ const extractEmails = () => {
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
+      const fileteredElvesData = jsonData.filter(item => item.elves && item.elves.toLowerCase() === 'yes');
 
-      const mappedData = filteredCommitteeData.map(item => ({
+      const mappedData = fileteredElvesData.map(item => ({
         firstName: item.firstName,
         lastName: item.lastName,
         email: item.email,
         dob: item.DOB,
         homeNumber: item.homeNumber,
         mobileNumber: item.mobileNumber,
+        emergencyContact: item.emergencyContact,
+        emergencyContactNumber: item.emergencyContactNumber,
       }));
 
       const sortedData = mappedData.sort((a, b) => {
@@ -126,6 +128,12 @@ const handleReset = () => {
             <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
                 Mobile Number
             </li>
+            <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
+                Emercency Contact
+            </li>
+            <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
+                Emercency Contact Number
+            </li>
 
         </ul>
         <ul className="flex overflow-scroll">
@@ -137,6 +145,8 @@ const handleReset = () => {
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.dob}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.homeNumber}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.mobileNumber}</span>
+                <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.emergencyContact}</span>
+                <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.emergencyContactNumber}</span>
             </li>
 
           ))}
@@ -144,7 +154,7 @@ const handleReset = () => {
         </div>
       )}
 
-  <button onClick={extractEmails} className="button-base hover:button-hover my-10">
+        <button onClick={extractEmails} className="button-base hover:button-hover my-10">
           Generate Mailing List
         </button>
 
@@ -162,4 +172,4 @@ const handleReset = () => {
   );
 };
 
-export default Committee;
+export default Elves;

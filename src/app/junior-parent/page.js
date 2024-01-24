@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import jsonData from '../../../data/data.json';
 
-const Committee = () => {
+const JuniorParent = () => {
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 //   const login = () => {
@@ -46,15 +46,19 @@ const extractEmails = () => {
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
+      const fileteredPatronData = jsonData.filter(item => item.patron && item.patron.toLowerCase() === 'yes');
 
-      const mappedData = filteredCommitteeData.map(item => ({
+      const mappedData = fileteredPatronData.map(item => ({
         firstName: item.firstName,
         lastName: item.lastName,
         email: item.email,
         dob: item.DOB,
         homeNumber: item.homeNumber,
         mobileNumber: item.mobileNumber,
+        firstChild: item.firstChild,
+        secondChild: item.secondChild,
+        thirdChild: item.thirdChild,
+        fourthChild: item.fourthChild,
       }));
 
       const sortedData = mappedData.sort((a, b) => {
@@ -79,7 +83,11 @@ useEffect(() => {
 const handleSearch = () => {
   const filteredData = originalData.filter(item =>
     item.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    item.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.firstChild.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.secondChild.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.thirdChild.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.fourthChild.toLowerCase().includes(searchTerm.toLowerCase()) 
   );
 
   setTransformedData(filteredData);
@@ -126,6 +134,19 @@ const handleReset = () => {
             <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
                 Mobile Number
             </li>
+            <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
+                First Child
+            </li>
+            <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
+                Second Child
+            </li>
+            <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
+                Third Child
+            </li>
+            <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
+                Fourth Child
+            </li>
+       
 
         </ul>
         <ul className="flex overflow-scroll">
@@ -137,14 +158,18 @@ const handleReset = () => {
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.dob}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.homeNumber}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.mobileNumber}</span>
-            </li>
+                <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.firstChild}</span>
+                <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.secondChild}</span>
+                <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.thirdChild}</span>
+                <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.fourthChild}</span>
+              </li>
 
           ))}
         </ul>
         </div>
       )}
 
-  <button onClick={extractEmails} className="button-base hover:button-hover my-10">
+        <button onClick={extractEmails} className="button-base hover:button-hover my-10">
           Generate Mailing List
         </button>
 
@@ -162,4 +187,4 @@ const handleReset = () => {
   );
 };
 
-export default Committee;
+export default JuniorParent;

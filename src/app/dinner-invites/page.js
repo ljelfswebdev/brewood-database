@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import jsonData from '../../../data/data.json';
 
-const Committee = () => {
+const DinnerInvite = () => {
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 //   const login = () => {
@@ -46,9 +46,9 @@ const extractEmails = () => {
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const filteredCommitteeData = jsonData.filter(item => item.committee && item.committee.toLowerCase() === 'yes');
+      const fileteredDinnerInvite = jsonData.filter(item => item.dinnerInvite && item.dinnerInvite.toLowerCase() === 'yes');
 
-      const mappedData = filteredCommitteeData.map(item => ({
+      const mappedData = fileteredDinnerInvite.map(item => ({
         firstName: item.firstName,
         lastName: item.lastName,
         email: item.email,
@@ -126,6 +126,7 @@ const handleReset = () => {
             <li className="font-bold h-8 flex items-center text-blue border-b-2 border-solid border-blue">
                 Mobile Number
             </li>
+       
 
         </ul>
         <ul className="flex overflow-scroll">
@@ -137,14 +138,14 @@ const handleReset = () => {
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.dob}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.homeNumber}</span>
                 <span className="h-8 flex items-center border-b-2 border-solid border-blue">{item.mobileNumber}</span>
-            </li>
+              </li>
 
           ))}
         </ul>
         </div>
       )}
 
-  <button onClick={extractEmails} className="button-base hover:button-hover my-10">
+        <button onClick={extractEmails} className="button-base hover:button-hover my-10">
           Generate Mailing List
         </button>
 
@@ -162,4 +163,4 @@ const handleReset = () => {
   );
 };
 
-export default Committee;
+export default DinnerInvite;
