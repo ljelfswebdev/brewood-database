@@ -14,21 +14,21 @@ const App = () => {
     mobileNumber: '',
     emergencyContact: '',
     emergencyContactNumber: '',
-    premierDraw: '',
-    juniorParent: '',
+    premierDraw: 0,
+    juniorParent: false,
     firstChild: '',
     secondChild: '',
     thirdChild: '',
     fourthChild: '',
-    player: '',
-    ladies: '',
-    committee: '',
-    lifeMember: '',
-    trustee: '',
-    elves: '',
-    coach: '',
-    patron: '',
-    dinnerInvite: '',
+    player: false,
+    ladies: false,
+    committee: false,
+    lifeMember: false,
+    trustee: false,
+    elves: false,
+    coach: false,
+    patron: false,
+    dinnerInvite: false,
   });
 
   const [editingPerson, setEditingPerson] = useState(null);
@@ -36,19 +36,24 @@ const App = () => {
 
   useEffect(() => {
     // Fetch all persons when the component mounts
-    axios.get('http://localhost:5000/api/persons')
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND}/api/persons`)
       .then(response => setPersons(response.data))
       .catch(error => console.error(error));
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewPerson({ ...newPerson, [name]: value });
-  };
+  const handleInputChange = (event) => {
+  const { name, value, type, checked } = event.target;
+  const newValue = type === 'checkbox' ? checked : value;
+
+  setNewPerson({
+    ...newPerson,
+    [name]: newValue,
+  });
+};
 
   const handleAddPerson = () => {
     // Add a new person
-    axios.post('http://localhost:5000/api/persons', newPerson)
+    axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/persons`, newPerson)
       .then(response => {
         setPersons([...persons, response.data]);
         setNewPerson({
@@ -60,21 +65,21 @@ const App = () => {
           mobileNumber: '',
           emergencyContact: '',
           emergencyContactNumber: '',
-          premierDraw: '',
-          juniorParent: '',
+          premierDraw: 0,
+          juniorParent: false,
           firstChild: '',
           secondChild: '',
           thirdChild: '',
           fourthChild: '',
-          player: '',
-          ladies: '',
-          committee: '',
-          lifeMember: '',
-          trustee: '',
-          elves: '',
-          coach: '',
-          patron: '',
-          dinnerInvite: '',
+          player: false,
+          ladies: false,
+          committee: false,
+          lifeMember: false,
+          trustee: false,
+          elves: false,
+          coach: false,
+          patron: false,
+          dinnerInvite: false,
         });
       })
       .catch(error => console.error(error));
@@ -83,12 +88,31 @@ const App = () => {
   const handleEditPerson = (id) => {
     const personToEdit = persons.find(person => person._id === id);
     setEditingPerson(personToEdit);
-    setNewPerson(personToEdit);
+  
+    // Parse boolean values from strings
+    const editedPerson = {
+      ...personToEdit,
+      juniorParent: personToEdit.juniorParent === "true",
+      player: personToEdit.player === "true",
+      ladies: personToEdit.ladies === "true",
+      committee: personToEdit.committee === "true",
+      lifeMember: personToEdit.lifeMember === "true",
+      trustee: personToEdit.trustee === "true",
+      elves: personToEdit.elves === "true",
+      coach: personToEdit.coach === "true",
+      patron: personToEdit.patron === "true",
+      dinnerInvite: personToEdit.dinnerInvite === "true",
+    };
+  
+    setNewPerson(editedPerson);
   };
+  
+  
+  
 
   const handleSavePerson = () => {
     // Update an existing person
-    axios.put(`http://localhost:5000/api/persons/${editingPerson._id}`, newPerson)
+    axios.put(`${process.env.NEXT_PUBLIC_BACKEND}/api/persons/${editingPerson._id}`, newPerson)
       .then(response => {
         const updatedPersons = persons.map(person => (person._id === editingPerson._id ? response.data : person));
         setPersons(updatedPersons);
@@ -104,21 +128,21 @@ const App = () => {
           mobileNumber: '',
           emergencyContact: '',
           emergencyContactNumber: '',
-          premierDraw: '',
-          juniorParent: '',
+          premierDraw: 0,
+          juniorParent: false,
           firstChild: '',
           secondChild: '',
           thirdChild: '',
           fourthChild: '',
-          player: '',
-          ladies: '',
-          committee: '',
-          lifeMember: '',
-          trustee: '',
-          elves: '',
-          coach: '',
-          patron: '',
-          dinnerInvite: '',
+          player: false,
+          ladies: false,
+          committee: false,
+          lifeMember: false,
+          trustee: false,
+          elves: false,
+          coach: false,
+          patron: false,
+          dinnerInvite: false,
         });
       })
       .catch(error => console.error(error));
@@ -126,7 +150,7 @@ const App = () => {
 
   const handleDeletePerson = (id) => {
     // Delete a person
-    axios.delete(`http://localhost:5000/api/persons/${id}`)
+    axios.delete(`${process.env.NEXT_PUBLIC_BACKEND}/api/persons/${id}`)
       .then(() => setPersons(persons.filter(person => person._id !== id)))
       .catch(error => console.error(error));
   };
@@ -195,12 +219,12 @@ const App = () => {
 
             <div className="flex flex-col gap-1">
             <label htmlFor="premierDraw">Premier Draw</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="premierDraw" placeholder="Premier Draw" value={newPerson.premierDraw} onChange={handleInputChange} />
+            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="number" name="premierDraw" placeholder="Premier Draw" value={newPerson.premierDraw} onChange={handleInputChange} />
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="juniorParent">Junior Parent</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="juniorParent" placeholder="Junior Parent" value={newPerson.juniorParent} onChange={handleInputChange} />
+            <input type="checkbox" name="juniorParent" checked={newPerson.juniorParent} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
@@ -225,47 +249,47 @@ const App = () => {
 
             <div className="flex flex-col gap-1">
             <label htmlFor="player">Player</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="player" placeholder="Player" value={newPerson.player} onChange={handleInputChange} />
+            <input type="checkbox" name="player" checked={newPerson.player} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="ladies">Ladies</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="ladies" placeholder="Ladies" value={newPerson.ladies} onChange={handleInputChange} />
+            <input type="checkbox" name="ladies" checked={newPerson.ladies} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="committee">Committee</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="committee" placeholder="Committee" value={newPerson.committee} onChange={handleInputChange} />
+            <input type="checkbox" name="committee" checked={newPerson.committee} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="lifeMember">Life Member</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="lifeMember" placeholder="Life Member" value={newPerson.lifeMember} onChange={handleInputChange} />
+            <input type="checkbox" name="lifeMember" checked={newPerson.lifeMember} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="trustee">Trustee</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="trustee" placeholder="Trustee" value={newPerson.trustee} onChange={handleInputChange} />
+            <input type="checkbox" name="trustee" checked={newPerson.trustee} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="elves">Elves</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="elves" placeholder="Elves" value={newPerson.elves} onChange={handleInputChange} />
+            <input type="checkbox" name="elves" checked={newPerson.elves} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="coach">Coach</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="coach" placeholder="Coach" value={newPerson.coach} onChange={handleInputChange} />
+            <input type="checkbox" name="coach" checked={newPerson.coach} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="patron">Patron</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="patron" placeholder="Patron" value={newPerson.patron} onChange={handleInputChange} />
+            <input type="checkbox" name="patron" checked={newPerson.patron} onChange={handleInputChange}/>
             </div>
 
             <div className="flex flex-col gap-1">
             <label htmlFor="dinnerInvite">Dinner Invite</label>
-            <input className="border border-2 border-darkBlue rounded-xl px-4 py-1"  type="text" name="dinnerInvite" placeholder="Dinner Invite" value={newPerson.dinnerInvite} onChange={handleInputChange} />
+            <input type="checkbox" name="dinnerInvite" checked={newPerson.dinnerInvite} onChange={handleInputChange}/>
             </div>
 
         </div>
